@@ -1,0 +1,6 @@
+{
+  "presets": ["node"],
+  "plugins": [
+    "add-module-exports"
+  ]
+}

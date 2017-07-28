@@ -1,0 +1,58 @@
+{
+  "name": "vd-generator",
+  "version": "0.1.0",
+  "description": "前端可视化开发平台-生成器",
+  "files": [
+    "boilerplates",
+    "lib",
+    "src",
+    "index.js"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "build": "babel -d lib/ src/",
+    "dev": "npm run build -- -w",
+    "test": "NODE_ENV=test nyc mocha --no-timeouts ./test/*-test.js ./test/**/*-test.js",
+    "report": "nyc report --reporter=html",
+    "debug": "mocha --require babel-register --no-timeouts ./test/*-test.js ./test/**/*-test.js",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FuluUE/vd-generator.git"
+  },
+  "keywords": [
+    "vd"
+  ],
+  "author": "Tom Xu <ycxzhkx@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FuluUE/vd-generator/issues"
+  },
+  "homepage": "https://github.com/FuluUE/vd-generator#readme",
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-node": "^5.1.1",
+    "babel-register": "^6.24.1",
+    "expect": "^1.20.2",
+    "mocha": "^3.4.2",
+    "nyc": "^11.0.3"
+  },
+  "dependencies": {
+    "fs-extra": "^4.0.0",
+    "lodash": "^4.17.4",
+    "mustache": "^2.3.0"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.js"
+    ],
+    "require": [
+      "babel-register"
+    ],
+    "sourceMap": false,
+    "instrument": false
+  }
+}
