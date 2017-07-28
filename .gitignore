@@ -28,8 +28,8 @@ build/Release
 node_modules
 lib
 package-lock.json
-
-
+.nyc_output
+coverage
 
 # OSX
 .DS_Store
