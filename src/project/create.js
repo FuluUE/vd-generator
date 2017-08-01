@@ -1,7 +1,7 @@
 import { join, resolve, dirname } from 'path';
 import fs from 'fs-extra';
 
-export default function createProject() {
+export default function createProject({ projectPath, config }) {
     try {
         const basePath = join(__dirname, '../../boilerplates/project/react');
         let dirConfig = config.directory || {};
