@@ -1,14 +1,12 @@
 import ReduxReqs from 'redux-reqs';
-{{#extraImport}}
-{{{extraImport}}}
-{{/extraImport}}
+import Api from '../configs/api';
 
 const reduxReqs = new ReduxReqs({
   prefix: '{{prefix}}'
 });
 
 reduxReqs
-  .{{method}}('{{actionName}}', {{urlPrefix}}{{url}}{{urlSuffix}});
+  .{{method}}('{{actionName}}', Api.{{requestVarName}});
 
 export const { {{actionType}} } = reduxReqs.getCreateActions();
 

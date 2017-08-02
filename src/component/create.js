@@ -38,6 +38,14 @@ export default function createComponent(config, opts = { type: 0 }) {
             const actionGroups = {};
             const exportActions = [];
             const mapStateToProps = [];
+
+            const apiPath = join(config.dir, config.directory.source, config.directory.config, 'api.js');
+            let apiContent = readFileSync(apiPath, 'utf8');
+            apiContent = apiContent.replace('export default', '').replace(';', '');
+            apiContent = JSON.parse(apiContent);
+            apiContent[opts.sagas[0].requestVarName] = opts.sagas[0].url;
+            writeFileSync(apiPath, `export default ${JSON.stringify(apiContent, null, 2)};`);
+
             opts.sagas.forEach(item => {
                 const actionType = camelCase(item.actionName);
                 writeFileSync(join(reduxPath, `${camelCaseName}.js`),
