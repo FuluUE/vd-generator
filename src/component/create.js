@@ -27,7 +27,7 @@ export default function createComponent(config, opts = { type: 0 }) {
         _.forEach(opts.lifecycle, (item) => lifecycle[item] = true);
         _.forEach(opts.module, (item) => {
             module[item] = camelCaseName;
-            if (item !== 'style') {
+            if (item !== 'style' && item !== 'doc') {
                 mkdirsSync(join(componentPath, config.directory[item] || item));
             }
         });
@@ -114,6 +114,11 @@ export default function createComponent(config, opts = { type: 0 }) {
             const stylePath = join(componentPath, config.directory.style);
             mkdirsSync(stylePath);
             writeFileSync(join(stylePath, `${camelCaseName}.less`), '');
+        }
+        if (module.doc) {
+            const docPath = join(componentPath, config.directory.document);
+            mkdirsSync(docPath);
+            writeFileSync(join(docPath, 'index.md'), `${name} Doc`);
         }
         writeFileSync(join(vdConfigPath, `${camelCaseName}.json`), JSON.stringify(opts, null, 2));
     }
