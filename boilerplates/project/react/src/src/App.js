@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import {
     BrowserRouter as Router,
-    // HashRouter as Router,
     Route,
     Switch,
     withRouter,
