@@ -1,0 +1,339 @@
+import fs from 'fs';
+import { resolve, join } from 'path';
+import webpack from 'webpack';
+import HtmlPlugin from 'html-webpack-plugin';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import autoprefixer from 'autoprefixer';
+import pxtorem from 'postcss-pxtorem';
+import SvgSpritePlugin from 'svg-sprite-loader/plugin';
+import SpritesmithPlugin from 'webpack-spritesmith';
+import CleanPlugin from 'clean-webpack-plugin';
+
+// svg 目录
+const svgDirs = [
+  require.resolve('antd-mobile').replace(/warn\.js$/, ''),
+  join({{{dir}}}, '{{directory.development.envName}}', '{{directory.development.component}}'),
+];
+
+// less & image 目录
+const styleDirs = [
+  join(__dirname, 'node_modules'),
+  join({{{dir}}}, '{{directory.build.envName}}'),
+  join({{{dir}}}, '{{directory.development.envName}}', '{{directory.development.component}}'),
+  join({{{dir}}}, '{{directory.development.envName}}', '{{directory.development.sprite}}'),
+];
+{{#isDebug}}
+function getIpAdress() {
+  const interfaces = require('os').networkInterfaces(); // eslint-disable-line global-require
+  for (const devName in interfaces) { // eslint-disable-line guard-for-in, no-restricted-syntax
+    const iface = interfaces[devName];
+    for (let i = 0; i < iface.length; i += 1) {
+      const alias = iface[i];
+      if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+        return alias.address;
+      }
+    }
+  }
+  return 'localhost';
+}
+
+const $host = getIpAdress();
+{{/isDebug}}
+
+export default {
+  output: {
+    path: join({{{dir}}}, '{{directory.production.envName}}'),
+    publicPath: '{{{configs.general.publicPath}}}/',
+    filename: '{{{directory.production.resource}}}/{{{directory.production.javascript}}}/[name]-[hash:10].js',
+    chunkFilename: '{{{directory.production.resource}}}/{{{directory.production.javascript}}}/[name]-[chunkhash:10].js',
+  },
+{{^isDebug}}
+  entry: {
+    index: join({{{dir}}}, '{{directory.development.envName}}', 'index.js'),
+  },
+{{/isDebug}}
+{{#isDebug}}
+  devServer: {
+    host: $host,
+    port: {{debug.port}},
+    hot: true,
+    inline: true,
+    historyApiFallback: true,
+    compress: true,
+    open: {{debug.browsersync.open}},
+    contentBase: join({{{dir}}}, '{{directory.production.envName}}'),
+    publicPath: resolve('{{{general.publicPath}}}', '/'),
+  },
+  entry: [
+    'react-hot-loader/patch',
+    join({{{dir}}}, '{{directory.development.envName}}', 'index.js'),
+  ],
+  devtool: 'cheap-module-eval-source-map',
+{{/isDebug}}
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            extends: join(__dirname, '.babelrc'),
+            cacheDirectory: true,
+          }
+        },
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              minimize: {{compiler.css.less.minimize}},
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: [
+                autoprefixer({{{compiler.css.postcss.autoprefixer}}}),
+{{#pc}}
+                pxtorem({{{compiler.css.postcss.pxtorem}}}),
+{{/pc}}
+              ],
+            },
+          },
+        ],
+        include: styleDirs,
+      },
+      {
+        test: /\.less$/,
+{{#isDebug}}
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              minimize: false,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: [
+                autoprefixer({{{compiler.css.postcss.autoprefixer}}}),
+                {{^pc}}
+                pxtorem({{{compiler.css.postcss.pxtorem}}}),
+                {{/pc}}
+              ],
+            },
+          },
+          {
+            loader: 'less-loader',
+            options: {
+              modifyVars: {{{theme}}},
+            },
+          }
+        ],
+{{/isDebug}}
+{{^isDebug}}
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                minimize: {{{compiler.css.less.minimize}}},
+              },
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                plugins: [
+                  autoprefixer({{{compiler.css.postcss.autoprefixer}}}),
+                  {{^pc}}
+                  pxtorem({{{compiler.css.postcss.pxtorem}}}),
+                  {{/pc}}
+                ],
+              },
+            },
+            {
+              loader: 'less-loader',
+              options: {
+                modifyVars: {{{theme}}},
+              },
+            },
+          ],
+        }),
+{{/isDebug}}
+        include: styleDirs,
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              name: '[name]-[hash:10].[ext]',
+              limit: {{{compiler.asset.image.optimizer.limit}}},
+              outputPath: '{{{directory.production.resource}}}/{{{directory.production.asset}}}/',
+            }
+          },
+          'image-webpack-loader',
+        ],
+        include: styleDirs,
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'svg-sprite-loader',
+            options: {
+              extract: {{{compiler.asset.svg.sprite.extract}}},
+              spriteFilename: '{{{directory.production.resource}}}/{{{directory.production.asset}}}/sprite.svg',
+            }
+          },
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              svgo: {
+                plugins: [
+                  { cleanupAttrs: true },
+                  { cleanupEnableBackground: true },
+                  { cleanupIDs: true },
+                  { removeRasterImages: true },
+                  { removeDimensions: true },
+                  { removeStyleElement: true },
+                ]
+              }
+            }
+          },
+        ],
+        include: svgDirs,
+      },
+    ]
+  },
+  plugins: [
+    new HtmlPlugin({
+      template: join({{{dir}}}, '{{directory.development.envName}}', 'index.ejs'),
+      inject: true, 
+      title: '{{{compiler.html.title}}}',
+      description: '{{{compiler.html.description}}}',
+      keywords: '{{{compiler.html.keywords}}}',
+      favicon: join({{{dir}}}, '{{directory.development.envName}}', 'favicon.ico'),
+      bundle: '{{{general.publicPath}}}/{{{assets.main.js}}}',
+      platform: '{{{platform}}}',
+      {{^isDebug}}
+      minify: {
+        collapseBooleanAttributes: true,
+        collapseInlineTagWhitespace: true,
+        collapseWhitespace: true,
+        removeComments: true,
+        removeEmptyAttributes: true,
+        removeRedundantAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        removeScriptTypeAttributes: true,
+        trimCustomFragments: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true,
+      },
+      {{/isDebug}}
+    }),
+    new webpack.DllReferencePlugin({
+      context: {{{dir}}},
+      manifest: require(join({{{dir}}}, '.build', 'manifest.json')),
+    }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+    }),
+{{#isDebug}}
+    new CleanPlugin([
+      join({{{dir}}}, '{{directory.production.envName}}', '*.html'),
+    ]),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+    {{^pc}}
+    new BrowserSyncPlugin({
+        host: $host,
+        port: debug.browsersync.port,
+        proxy: 'http://' + $host + ':{{debug.port}}',
+        open: {{debug.browsersync.open}},
+    }),
+    {{/pc}}
+    new webpack.ProvidePlugin({
+      Mock: 'mockjs',
+      MockAdapter: 'axios-mock-adapter',
+    }),
+    new webpack.DefinePlugin({
+      __DEV__: true,
+    }),
+{{/isDebug}}
+{{^isDebug}}
+    new CleanPlugin([
+      join({{{dir}}}, '{{directory.production.envName}}', '{{directory.production.resource}}', '{{directory.production.javascript}}', '*.*'),
+      join({{{dir}}}, '{{directory.production.envName}}', '{{directory.production.resource}}', '{{directory.production.style}}', '*.*'),
+      join({{{dir}}}, '{{directory.production.envName}}', '{{directory.production.resource}}', '{{directory.production.asset}}', '*.*'),
+      join({{{dir}}}, '{{directory.production.envName}}', '*.*'),
+      join({{{dir}}}, '{{directory.build.envName}}', 'sprite.*'),
+    ]),
+    new webpack.optimize.UglifyJsPlugin({
+      beautify: false,
+      comments: false,
+      compress: {
+        warnings: false,
+        drop_debugger: true,
+        drop_console: true,
+        collapse_vars: true,
+        reduce_vars: true,
+      }
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'commons',
+      filename: '{{directory.production.resource}}/{{directory.production.javascript}}/commons-[hash:10].js',
+    }),
+    new webpack.DefinePlugin({
+      __DEV__: false,
+    }),
+    new ExtractTextPlugin({
+      filename: '{{directory.production.resource}}/{{directory.production.style}}/[name]-[hash:10].css',
+      allChunks: true,
+    }),
+{{/isDebug}}
+{{#compiler.asset.svg.sprite.extract}}
+    new SvgSpritePlugin(),
+{{/compiler.asset.svg.sprite.extract}}
+    new SpritesmithPlugin({
+      src: {
+        cwd: join({{{dir}}}, '{{directory.development.envName}}', '{{directory.development.sprite}}'),
+        glob: '*.png',
+      },
+      target: {
+        image: join({{{dir}}}, '{{directory.build.envName}}', 'sprite.png'),
+        css: join({{{dir}}}, '{{directory.build.envName}}', 'sprite.less'),
+      },
+      apiOptions: {
+        cssImageRef: 'sprite.png',
+      },
+    }),
+  ],
+  resolve: {
+    alias: {{{general.resolve.alias}}},
+    extensions: {{{general.resolve.extensions}}},
+    mainFields: {{{general.resolve.mainFields}}},
+    modules: [
+      join(__dirname, 'node_modules'),
+      join({{{dir}}}, '{{directory.build.envName}}'),
+    ]
+  },
+  externals: {{{general.externals}}},
+  performance: {
+{{#isDebug}}
+    hints: false,
+{{/isDebug}}
+    maxAssetSize: {{general.performance.maxAssetSize}},
+    maxEntrypointSize: {{general.performance.maxEntrypointSize}},
+  },
+};

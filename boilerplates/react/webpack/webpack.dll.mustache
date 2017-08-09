@@ -1,0 +1,44 @@
+import { join } from 'path';
+import webpack from 'webpack';
+import CleanPlugin from 'clean-webpack-plugin';
+import AssetsPlugin from 'assets-webpack-plugin';
+
+export default {
+  entry: {{{dll.content}}},
+  output: {
+    path: join({{{dir}}}, '{{directory.production.envName}}', '{{directory.production.resource}}', '{{directory.production.dll}}'),
+    publicPath: '{{directory.production.resource}}/{{directory.production.dll}}/',
+    filename: '{{dll.name}}-[hash:10].js',
+    library: '{{dll.name}}',
+    libraryTarget: {{{dll.target}}},
+  },
+  plugins: [
+    new CleanPlugin([
+      join({{{dir}}}, '{{directory.production.envName}}', '{{directory.production.resource}}', '{{directory.production.dll}}', '*.*'),
+      join({{{dir}}}, '{{directory.build.envName}}', '*.*'),
+    ]),
+    new webpack.DllPlugin({
+      path: join({{{dir}}}, '{{directory.build.envName}}', 'manifest.json'),
+      name: '{{dll.name}}',
+    }),
+    {{^isDebug}}
+    new webpack.optimize.UglifyJsPlugin({
+      beautify: false,
+      comments: false,
+      compress: {
+        warnings: false,
+        drop_debugger: true,
+        drop_console: true,
+        collapse_vars: true,
+        reduce_vars: true,
+      }
+    }),
+    {{/isDebug}}
+    new AssetsPlugin({
+      path: join({{{dir}}}, '{{directory.build.envName}}'),
+    }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+    }),
+  ],
+};
