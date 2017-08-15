@@ -3,20 +3,24 @@ import fs from 'fs-extra';
 
 export default function createProject({ projectPath, config }) {
     try {
-        const basePath = join(__dirname, '../../boilerplates/project/react');
-        let dirConfig = config.directory || {};
-        fs.copySync(join(basePath, 'src'), projectPath);
+        if (config.type === 'library') {
+            const basePath = join(__dirname, '../../boilerplates/project/library');
+            fs.copySync(basePath, projectPath);
+            fs.writeFileSync(join(projectPath, '.vd', 'project.json'), JSON.stringify(config, null, 2));
+        } else {
+            const basePath = join(__dirname, '../../boilerplates/project/react');
+            let dirConfig = config.directory || {};
+            fs.copySync(join(basePath, 'src'), projectPath);
 
-        dirConfig = config.directory.development;
-        dirConfig.source = dirConfig.envName;
-        fs.writeFileSync(join(projectPath, '.vd', 'project.json'), JSON.stringify(config, null, 2));
-        const appPath = join(projectPath, 'src', 'App.js');
-        // HashRouter as Router,
-        if (config.routerType !== 'BrowserRouter') {
-            const str = fs.readFileSync(appPath, 'utf8');
-            fs.writeFileSync(appPath, str.replace('BrowserRouter', 'HashRouter'))
+            dirConfig = config.directory.development;
+            dirConfig.source = dirConfig.envName;
+            const appPath = join(projectPath, 'src', 'App.js');
+            fs.writeFileSync(join(projectPath, '.vd', 'project.json'), JSON.stringify(config, null, 2));
+            if (config.routerType !== 'BrowserRouter') {
+                const str = fs.readFileSync(appPath, 'utf8');
+                fs.writeFileSync(appPath, str.replace('BrowserRouter', 'HashRouter'))
+            }
         }
-
     } catch (error) {
         fs.removeSync(projectPath);
         throw error;

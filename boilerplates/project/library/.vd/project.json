@@ -1,0 +1,39 @@
+{
+    "dir": "__dirname",
+    "library": {
+        "name": "vendor",
+        "target": "var",
+        "content": [
+            "babel-polyfill",
+            "react",
+            "react-dom"
+        ]
+    },
+    "directory": {
+        "development": {
+            "envName": "src",
+            "component": "components",
+            "container": "containers",
+            "redux": "redux",
+            "store": "store",
+            "util": "utils",
+            "config": "configs",
+            "sprite": "sprite",
+            "style": "less",
+            "data": "json",
+            "test": "test",
+            "document": "doc"
+        },
+        "build": {
+            "envName": ".build"
+        },
+        "production": {
+            "envName": "dist",
+            "resource": "resources",
+            "dll": "dll",
+            "javascript": "js",
+            "style": "css",
+            "asset": "images"
+        }
+    }
+}
