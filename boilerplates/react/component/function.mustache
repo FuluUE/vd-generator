@@ -1,0 +1,26 @@
+import React from 'react';
+{{#isPropCheck}}
+import PropTypes from 'prop-types';
+{{/isPropCheck}}
+{{#module.style}}
+import './less/{{module.style}}.less';
+{{/module.style}}
+
+const {{name}} = (props) => {
+    return (
+        <div>{{name}}</div>
+    );
+};
+
+{{#isPropCheck}}
+{{name}}.propTypes = {
+
+};
+
+{{name}}.propTypes = {
+
+};
+{{/isPropCheck}}
+
+export default {{name}};
+
