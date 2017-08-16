@@ -10,7 +10,7 @@ export default function createProject({ projectPath, config }) {
         } else {
             const basePath = join(__dirname, '../../boilerplates/project', config.type);
             let dirConfig = config.directory || {};
-            fs.copySync(join(basePath, 'src'), projectPath);
+            fs.copySync(basePath, projectPath);
 
             dirConfig = config.directory.development;
             dirConfig.source = dirConfig.envName;
