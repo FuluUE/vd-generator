@@ -10,6 +10,14 @@ export default function createProject({ projectPath, config }) {
         } else {
             const basePath = join(__dirname, '../../boilerplates/project', config.type);
             let dirConfig = config.directory || {};
+            console.log(basePath, projectPath);
+            if (!fs.existsSync(basePath)) {
+                return console.error(`${basePath} not found`);
+            }
+            // fs.copy(basePath, projectPath, (err) => {
+            //     console.log(err);
+            // });
+            // fs.mkdirsSync(projectPath);
             fs.copySync(basePath, projectPath);
 
             dirConfig = config.directory.development;
@@ -22,7 +30,7 @@ export default function createProject({ projectPath, config }) {
             }
         }
     } catch (error) {
-        fs.removeSync(projectPath);
+        // fs.removeSync(projectPath);
         throw error;
     }
 }

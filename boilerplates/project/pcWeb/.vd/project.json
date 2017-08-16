@@ -1,0 +1,126 @@
+{
+    "dir": "__dirname",
+    "dll": {
+        "name": "vendor",
+        "target": "var",
+        "content": [
+            "babel-polyfill",
+            "react",
+            "react-dom",
+            "history",
+            "react-router",
+            "react-router-dom",
+            "redux",
+            "react-redux",
+            "redux-saga",
+            "redux-actions",
+            "redux-reqs",
+            "axios"
+        ]
+    },
+    "directory": {
+        "development": {
+            "envName": "src",
+            "component": "components",
+            "container": "containers",
+            "redux": "redux",
+            "store": "store",
+            "util": "utils",
+            "config": "configs",
+            "sprite": "sprite",
+            "style": "less",
+            "data": "json",
+            "test": "test",
+            "document": "doc"
+        },
+        "build": {
+            "envName": ".build"
+        },
+        "production": {
+            "envName": "dist",
+            "resource": "resources",
+            "dll": "dll",
+            "javascript": "js",
+            "style": "css",
+            "asset": "images"
+        }
+    },
+    "general": {
+        "publicPath": "",
+        "resolve": {
+            "alias": {
+                "rework": "rework.less/rework.less",
+                "sprite": "../../../../.build/sprite.less"
+            },
+            "extensions": [
+                ".web.js",
+                ".js",
+                ".json"
+            ],
+            "mainFields": [
+                "browser",
+                "jsnext:main",
+                "main"
+            ]
+        },
+        "externals": {
+            "configs": "configs"
+        },
+        "performance": {
+            "maxAssetSize": 400000,
+            "maxEntrypointSize": 600000
+        },
+        "target": "web"
+    },
+    "compiler": {
+        "css": {
+            "less": {
+                "minimize": true
+            },
+            "postcss": {
+                "autoprefixer": {
+                    "browsers": [
+                        "last 3 versions",
+                        "> 1%"
+                    ]
+                },
+                "pxtorem": {
+                    "rootValue": "100",
+                    "propWhiteList": []
+                }
+            }
+        },
+        "asset": {
+            "image": {
+                "optimizer": {
+                    "limit": 10000
+                }
+            },
+            "svg": {
+                "sprite": {
+                    "extract": false
+                }
+            }
+        },
+        "html": {
+            "title": "Single Page Application",
+            "description": "description",
+            "keywords": "keywords"
+        }
+    },
+    "theme": {
+        "border-radius-base": "0px",
+        "border-radius-sm": "0px",
+        "brand-primary": "#43a5df",
+        "brand-primary-tap": "#43a5df"
+    },
+    "platform": "pc",
+    "debug": {
+        "port": 3000,
+        "sync": false,
+        "browsersync": {
+            "port": 4000,
+            "open": true
+        }
+    }
+}
