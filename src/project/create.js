@@ -30,7 +30,7 @@ export default function createProject({ projectPath, config }) {
             }
         }
     } catch (error) {
-        // fs.removeSync(projectPath);
+        fs.removeSync(projectPath);
         throw error;
     }
 }
