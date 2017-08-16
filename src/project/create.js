@@ -10,7 +10,7 @@ export default function createProject({ projectPath, config }) {
         } else {
             const basePath = join(__dirname, '../../boilerplates/project', config.type);
             let dirConfig = config.directory || {};
-            console.log(basePath, projectPath);
+            // console.log(basePath, projectPath);
             if (!fs.existsSync(basePath)) {
                 return console.error(`${basePath} not found`);
             }
