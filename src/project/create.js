@@ -8,7 +8,7 @@ export default function createProject({ projectPath, config }) {
             fs.copySync(basePath, projectPath);
             fs.writeFileSync(join(projectPath, '.vd', 'project.json'), JSON.stringify(config, null, 2));
         } else {
-            const basePath = join(__dirname, '../../boilerplates/project/react');
+            const basePath = join(__dirname, '../../boilerplates/project', config.type);
             let dirConfig = config.directory || {};
             fs.copySync(join(basePath, 'src'), projectPath);
 
