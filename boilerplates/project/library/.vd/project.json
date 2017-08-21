@@ -1,6 +1,6 @@
 {
     "dir": "__dirname",
-    "library": {
+    "dll": {
         "name": "vendor",
         "target": "var",
         "content": [

@@ -1,6 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-export default () => (
-    <div>PageNotFound</div>
-);
+const PageNotFound = (props) => {
+    return (
+        <div>PageNotFound</div>
+    );
+};
+
+PageNotFound.propTypes = {
+
+};
+
+PageNotFound.defaultProps = {
+
+};
+
+export default PageNotFound;
+

@@ -83,10 +83,6 @@
                         "last 3 versions",
                         "> 1%"
                     ]
-                },
-                "pxtorem": {
-                    "rootValue": "100",
-                    "propWhiteList": []
                 }
             }
         },
@@ -114,7 +110,6 @@
         "brand-primary": "#43a5df",
         "brand-primary-tap": "#43a5df"
     },
-    "platform": "pc",
     "debug": {
         "port": 3000,
         "sync": false,

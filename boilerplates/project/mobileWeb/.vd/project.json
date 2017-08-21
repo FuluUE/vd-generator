@@ -114,7 +114,6 @@
         "brand-primary": "#43a5df",
         "brand-primary-tap": "#43a5df"
     },
-    "platform": "pc",
     "debug": {
         "port": 3000,
         "sync": false,

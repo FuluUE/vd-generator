@@ -1,6 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-export default () => (
-    <h2>500</h2>
-);
+const PageServerError = (props) => {
+    return (
+        <div>PageServerError</div>
+    );
+};
+
+PageServerError.propTypes = {
+
+};
+
+PageServerError.defaultProps = {
+
+};
+
+export default PageServerError;
+
