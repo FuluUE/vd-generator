@@ -1,0 +1,11 @@
+{
+  "name": "electron-react",
+  "description": "electron react",
+  "productName": "electron-react",
+  "version": "1.0.0",
+  "author": "Tom Xu",
+  "main": "./main.prod.js",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
+}

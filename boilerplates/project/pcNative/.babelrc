@@ -1,0 +1,29 @@
+{
+  "presets": [
+    ["env", {
+      "targets": { "node": 7 },
+      "useBuiltIns": true
+    }],
+    "react",
+    "stage-0",
+    "stage-2"
+  ],
+  "plugins": [
+    "add-module-exports",
+    "dynamic-import-webpack",
+    "transform-runtime",
+    ["import",{"libraryName": "antd", "style": true }]
+  ],
+  "env": {
+    "production": {
+      "presets": ["react-optimize"],
+      "plugins": ["babel-plugin-dev-expression"]
+    },
+    "development": {
+      "plugins": [
+        "transform-class-properties",
+        "transform-es2015-classes"
+      ]
+    }
+  }
+}

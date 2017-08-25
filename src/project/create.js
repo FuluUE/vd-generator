@@ -14,17 +14,18 @@ export default function createProject({ projectPath, config }) {
             if (!fs.existsSync(basePath)) {
                 return console.error(`${basePath} not found`);
             }
-            // fs.copy(basePath, projectPath, (err) => {
-            //     console.log(err);
-            // });
-            // fs.mkdirsSync(projectPath);
+
             fs.copySync(basePath, projectPath);
 
             dirConfig = config.directory.development;
             dirConfig.source = dirConfig.envName;
             const appPath = join(projectPath, 'src', 'App.js');
+            if (config.type === 'pcNative') {
+                config.directory.source = 'app';
+            }
+
             fs.writeFileSync(join(projectPath, '.vd', 'project.json'), JSON.stringify(config, null, 2));
-            if (config.routerType !== 'BrowserRouter') {
+            if (config.type !== 'pcNative' && config.routerType !== 'BrowserRouter') {
                 const str = fs.readFileSync(appPath, 'utf8');
                 fs.writeFileSync(appPath, str.replace('BrowserRouter', 'HashRouter'))
             }
