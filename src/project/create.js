@@ -21,7 +21,7 @@ export default function createProject({ projectPath, config }) {
             dirConfig.source = dirConfig.envName;
             const appPath = join(projectPath, 'src', 'App.js');
             if (config.type === 'pcNative') {
-                config.directory.source = 'app';
+                config.directory.development.envName = 'app';
             }
 
             fs.writeFileSync(join(projectPath, '.vd', 'project.json'), JSON.stringify(config, null, 2));
