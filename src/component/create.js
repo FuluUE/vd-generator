@@ -28,7 +28,7 @@ export default function createComponent(config, opts = { type: 0 }) {
         mkdirsSync(vdConfigPath);
         writeFileSync(join(vdConfigPath, `${opts.name}.json`), JSON.stringify(opts, null, 2));
     } else {
-        if (opts.type === 0 || opts.type === 1) {
+        if (opts.type === 0 || opts.type === 1 || opts.type === 3) {
             const name = _.upperFirst(camelCase(opts.name));
             const camelCaseName = camelCase(name);
             opts.camelCaseName = camelCaseName;
