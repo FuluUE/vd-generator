@@ -15,7 +15,7 @@ export default (project) => {
             }
             str += `export { default as ${name} } from './${name}';\n`;
         });
-        const componentPath = join(dir, directory.source, directory.component);
+        const componentPath = path.join(dir, directory.source, directory.component);
         fs.writeFileSync(path.join(componentPath, 'index.js'), str);
     }
 }
