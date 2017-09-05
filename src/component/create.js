@@ -4,6 +4,7 @@ import { existsSync, mkdirsSync, writeFileSync, readFileSync } from 'fs-extra';
 import { camelCase } from '../utils';
 import reduxReset from './reduxReset';
 import render from '../utils/mustache';
+import resetIndex from './resetIndex';
 
 export default function createComponent(config, opts = { type: 0 }) {
     if (config.type === 'library') {
@@ -156,4 +157,6 @@ export default function createComponent(config, opts = { type: 0 }) {
             writeFileSync(join(vdConfigPath, `${camelCaseName}.json`), JSON.stringify(opts, null, 2));
         }
     }
+
+    resetIndex(config);
 }

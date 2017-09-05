@@ -1,6 +1,7 @@
 import { join } from 'path';
 import { existsSync, mkdirsSync, readFileSync, copySync } from 'fs-extra';
 import reduxReset from './reduxReset';
+import resetIndex from './resetIndex';
 
 export default (srcProject, destProject, components) => {
     const srcProjectDir = srcProject.dir;
@@ -28,4 +29,6 @@ export default (srcProject, destProject, components) => {
             }
         }
     });
+
+    resetIndex(destProject);
 }
