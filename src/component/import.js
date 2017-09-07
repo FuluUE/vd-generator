@@ -7,7 +7,7 @@ export default (srcProject, destProject, components) => {
     const srcProjectDir = srcProject.dir;
     const destProjectDir = destProject.dir;
     const dev = srcProject.directory.development;
-    const destDev = destProject.directory.development; 
+    const destDev = destProject.directory.development;
     const comCfgPath = join(srcProjectDir, '.vd', 'components');
     const comPath = join(srcProjectDir, dev.envName, dev.component);
     const conPath = join(srcProjectDir, dev.envName, dev.container);
@@ -29,6 +29,11 @@ export default (srcProject, destProject, components) => {
             }
         }
     });
-
-    resetIndex(destProject);
+    resetIndex({
+        ...destProject,
+        directory: {
+            source: destDev.envName,
+            component: destDev.component,
+        }
+    });
 }
