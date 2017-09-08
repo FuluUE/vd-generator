@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { join, parse } from 'path';
 import { existsSync, mkdirsSync, readFileSync, copySync } from 'fs-extra';
 import reduxReset from './reduxReset';
 import resetIndex from './resetIndex';
@@ -17,8 +17,12 @@ export default (srcProject, destProject, components) => {
     const destConPath = join(destProjectDir, destDev.envName, destDev.container);
     const destReduxPath = join(destProjectDir, destDev.envName, destDev.redux);
     if (existsSync(destComCfgPath)) mkdirsSync(destComCfgPath);
+    const destComponents = [];
+    fs.readdirSync(destComCfgPath).forEach(item => {
+        destComponents.push(parse(item).name.toLocaleLowerCase());
+    });
     Object.keys(components).forEach(key => {
-        if (components[key]) {
+        if (components[key] && destComponents.indexOf(key.toLocaleLowerCase()) === -1) {
             const cfg = JSON.parse(readFileSync(join(comCfgPath, `${key}.json`), 'utf8'));
             copySync(join(comCfgPath, `${key}.json`), join(destComCfgPath, `${key}.json`));
             copySync(join(comPath, key), join(destComPath, key));
