@@ -1,5 +1,5 @@
 import { join, parse } from 'path';
-import { existsSync, mkdirsSync, readFileSync, copySync } from 'fs-extra';
+import { existsSync, mkdirsSync, readFileSync, readdirSync, copySync } from 'fs-extra';
 import reduxReset from './reduxReset';
 import resetIndex from './resetIndex';
 
@@ -18,7 +18,7 @@ export default (srcProject, destProject, components) => {
     const destReduxPath = join(destProjectDir, destDev.envName, destDev.redux);
     if (existsSync(destComCfgPath)) mkdirsSync(destComCfgPath);
     const destComponents = [];
-    fs.readdirSync(destComCfgPath).forEach(item => {
+    readdirSync(destComCfgPath).forEach(item => {
         destComponents.push(parse(item).name.toLocaleLowerCase());
     });
     Object.keys(components).forEach(key => {
