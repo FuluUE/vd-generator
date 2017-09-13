@@ -97,7 +97,7 @@ export default function createComponent(config, opts = { type: 0 }) {
                         actionGroups[camelCaseName] = [];
                         exportActions.push(actionType);
                         actionGroups[camelCaseName].push(actionType);
-                        mapStateToProps.push(`${actionType}Result: state.${name}.${actionType}Result`);
+                        mapStateToProps.push(`${actionType}Result: state.${_.camelCase(name)}.${actionType}Result`);
                     });
 
                     const containerPath = join(config.dir, config.directory.source, config.directory.container);
@@ -110,14 +110,14 @@ export default function createComponent(config, opts = { type: 0 }) {
                     });
                     let importContent = '';
                     actions.forEach(item => {
-                        const [name, actionName] = item.split(' ');
-                        if (!actionGroups[name]) {
-                            actionGroups[name] = [];
+                        const [reducerName, actionName] = item.split(' ');
+                        if (!actionGroups[reducerName]) {
+                            actionGroups[reducerName] = [];
                         }
                         const actionType = _.camelCase(actionName);
                         exportActions.push(actionType);
-                        actionGroups[name].push(actionType);
-                        mapStateToProps.push(`${actionType}Result: state.${_.camelCase(name)}.${actionType}Result`);
+                        actionGroups[reducerName].push(actionType);
+                        mapStateToProps.push(`${actionType}Result: state.${_.camelCase(reducerName)}.${actionType}Result`);
                     });
                     Object.keys(actionGroups).forEach(key => {
                         importContent += `import { ${actionGroups[key].join(', ')} } from '../${config.directory.redux}/${key}';\n`;
