@@ -1,5 +1,6 @@
 import ReduxReqs from 'redux-reqs';
 import { beginTask, endTask } from 'redux-nprogress';
+import { all } from 'redux-saga/effects';
 {{{importContent}}}
 
 
@@ -9,7 +10,7 @@ ReduxReqs.defaults = {
 };
 
 export default function* rootSaga() {
-  yield [
+  yield all([
     {{{content}}}
-  ];
+  ]);
 }
