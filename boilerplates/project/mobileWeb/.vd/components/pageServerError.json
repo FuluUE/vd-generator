@@ -1,13 +1,16 @@
 {
   "name": "PageServerError",
   "description": "500 页",
-  "version": "1.0.0",
+  "version": "1.0.0-rc.0",
   "compatibility": {
     "chrome": "latest",
     "firefox": "latest",
     "safari": "latest",
     "ie": "9+"
   },
+  "module": [
+    "style"
+  ],
   "format": "function",
   "isPropCheck": true,
   "note": "",

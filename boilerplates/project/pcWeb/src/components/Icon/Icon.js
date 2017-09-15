@@ -26,6 +26,4 @@ Icon.defaultProps = {
     height: 1,
 };
 
-// export { default as test } from '../images/test.svg';
-
 export default Icon;

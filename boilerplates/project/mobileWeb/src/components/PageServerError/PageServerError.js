@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './less/pageServerError.less';
 
 const PageServerError = (props) => {
     return (
-        <div>PageServerError</div>
+        <div><h2>500</h2></div>
     );
 };
 
@@ -16,4 +17,3 @@ PageServerError.defaultProps = {
 };
 
 export default PageServerError;
-

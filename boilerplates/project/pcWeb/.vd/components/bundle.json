@@ -1,6 +1,6 @@
 {
   "name": "Bundle",
-  "description": "包模块，需配合 bundle-loader 一起使用",
+  "description": "代码拆分（Code Splitting）组件，需配合 bundle-loader 一起使用",
   "version": "1.0.0",
   "compatibility": {
     "chrome": "latest",
@@ -8,9 +8,10 @@
     "safari": "latest",
     "ie": "9+"
   },
+  "module": [
+    "doc"
+  ],
   "format": "class",
-  "isPropCheck": true,
-  "note": "",
   "lifecycleMountingOptions": [
     "constructor",
     "render",
@@ -19,6 +20,8 @@
   "lifecycleUpdatingOptions": [
     "componentWillReceiveProps"
   ],
+  "isPropCheck": true,
+  "note": "",
   "type": 0,
   "lifecycle": [
     "constructor",

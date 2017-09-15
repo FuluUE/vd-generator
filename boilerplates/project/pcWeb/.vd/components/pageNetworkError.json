@@ -1,0 +1,21 @@
+{
+  "name": "PageNetworkError",
+  "description": "网络错误页",
+  "version": "1.0.0-rc.0",
+  "compatibility": {
+    "chrome": "latest",
+    "firefox": "latest",
+    "safari": "latest",
+    "ie": "9+"
+  },
+  "module": [
+    "style"
+  ],
+  "format": "function",
+  "isPropCheck": true,
+  "note": "",
+  "type": 0,
+  "lifecycle": [],
+  "author": "尹传武",
+  "camelCaseName": "pageNetworkError"
+}

@@ -4,7 +4,7 @@ import './less/main.less';
 
 const Main = (props) => {
     return (
-        <div><span className="test">Main</span></div>
+        <div><h2 className="test">Main</h2></div>
     );
 };
 
