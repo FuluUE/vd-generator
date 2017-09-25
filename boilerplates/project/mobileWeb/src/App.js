@@ -12,6 +12,7 @@ import {
 } from 'react-router-dom';
 import './utils/axios';
 
+import Bundle from './components/Bundle';
 import Main from './components/Main';
 import PageServerError from './components/PageServerError';
 import PageNetworkError from './components/PageNetworkError';
@@ -31,16 +32,20 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-                <Router>
-                    <Switch>
-                        <Route exact path="/" component={Main} />
-                        <Route exact path="/async" component={Async} />
-                        <Route exact path="/pageServerError" component={PageServerError} />
-                        <Route exact path="/pageNetworkError" component={PageNetworkError} />
-                        <Route component={PageNotFound} />
-                    </Switch>
-                </Router>
-            </Provider>
+          <Router>
+              <Switch>
+                  <Route exact path="/" component={Main} />
+                  <Route exact path="/async" render={ (props) => (
+                    <Bundle load={Async}>
+                      { (Asyncs) => <Asyncs {...props} />}
+                    </Bundle>
+                  ) } />
+                  <Route exact path="/pageServerError" component={PageServerError} />
+                  <Route exact path="/pageNetworkError" component={PageNetworkError} />
+                  <Route component={PageNotFound} />
+              </Switch>
+          </Router>
+      </Provider>
     );
   }
 }
