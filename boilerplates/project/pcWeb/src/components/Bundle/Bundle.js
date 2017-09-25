@@ -3,23 +3,11 @@ import PropTypes from 'prop-types';
 
 class Bundle extends React.Component {
 
-  // static propTypes = {
-  //
-  // }
-  //
-  // static defaultProps = {
-  //
-  // }
+  static propTypes = {
+    load: PropTypes.func,
+    children: PropTypes.func
+  }
 
-  // constructor(props) {
-  //   super(props);
-  //
-  //   this.state = {
-  //     // short for "module" but that's a keyword in js, so "mod"
-  //     mod: null
-  //   };
-  // }
-  
   state = {
     // short for "module" but that's a keyword in js, so "mod"
     mod: null

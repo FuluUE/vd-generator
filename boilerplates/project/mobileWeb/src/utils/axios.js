@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { message } from 'antd';
+import { Toast } from 'antd-mobile';
 
 
 // axios.defaults.baseURL = '';
@@ -40,7 +40,7 @@ axios.interceptors.response.use(response => {
           break;
         case 403:
           // 403：已授权或不需要授权，但禁止访问，返回定义的 Status（{status: 403}）；提示禁止访问
-          message.warning('禁止访问！');
+          Toast.info('禁止访问！');
           return error.response.data;
           break;
         case 404:
@@ -62,7 +62,7 @@ axios.interceptors.response.use(response => {
       // 在设置请求时触发错误，发生了一些问题
       // 1）请求超过指定的时间；终止请求
       if (error.message == 'timeout of ' + error.config.timeout + 'ms exceeded') {
-        return message.warning('请求超时，请重新请求！');
+        return Toast.info('请求超时，请刷新页面重新请求！');
       }
       // 2）网络错误
       if (error.message == 'Network Error') {

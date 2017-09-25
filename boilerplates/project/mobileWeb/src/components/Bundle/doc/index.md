@@ -1,32 +1,37 @@
-## `<Bundle></Bundle>`
+## `<Bundle />`
 
 基本用法：
 
 ```jsx
-import loadSomething from 'bundle-loader?lazy!./Something';
+import Bundle from './components/Bundle';
+import Async from './containers/Async';
+...
 
-<Bundle load={loadSomething}>
-  {(mod) => (
-    // do something w/ the module
-  )}
-</Bundle>
+...
+<Route
+  path="/async"
+  render={ (props) => (
+    <Bundle load={Async}>
+      { (Asyncs) => <Asyncs {...props} /> }
+    </Bundle>
+    ) }
+/>
+...
 
-// 或
-<Bundle load={loadSomething}>
-  {(Comp) => (
-    Comp
-    ? <Comp />
-    : <Loading />
-  )}
-</Bundle>
-```
+/* 或 */
 
-也可以使用动态导入方法： `import()`。
-
-```jsx
-<Bundle load={() => import('./Something')}>
-  {(mod) => (
-    // do something w/ the module
-  )}
-</Bundle>
+...
+<Route
+  path="/async"
+  render={ (props) => (
+    <Bundle load={Async}>
+      { (Asyncs) => (
+        Asyncs
+        ? <Asyncs {...props} />
+        : <Loading />
+        ) }
+    </Bundle>
+    ) }
+/>
+...
 ```

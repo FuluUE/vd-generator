@@ -62,7 +62,7 @@ axios.interceptors.response.use(response => {
       // 在设置请求时触发错误，发生了一些问题
       // 1）请求超过指定的时间；终止请求
       if (error.message == 'timeout of ' + error.config.timeout + 'ms exceeded') {
-        return message.warning('请求超时，请重新请求！');
+        return message.warning('请求超时，请刷新页面重新请求！');
       }
       // 2）网络错误
       if (error.message == 'Network Error') {

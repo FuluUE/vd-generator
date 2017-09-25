@@ -1,12 +1,15 @@
-import React, { Component } from 'react';
-import { Provider } from 'react-redux';
+import React, {
+  Component
+} from 'react';
 import {
-    BrowserRouter as Router,
-    Route,
-    Switch,
-    withRouter,
+  Provider
+} from 'react-redux';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  withRouter,
 } from 'react-router-dom';
-// import { ConnectedRouter } from 'react-router-redux';
 import './utils/axios';
 
 import Main from './components/Main';
@@ -25,9 +28,9 @@ store.runSaga(rootSaga);
 
 
 export default class App extends Component {
-    render () {
-        return (
-            <Provider store={store}>
+  render() {
+    return (
+      <Provider store={store}>
                 <Router>
                     <Switch>
                         <Route exact path="/" component={Main} />
@@ -38,6 +41,6 @@ export default class App extends Component {
                     </Switch>
                 </Router>
             </Provider>
-        );
-    }
+    );
+  }
 }
