@@ -1,0 +1,27 @@
+@import (reference) "~rework.less/rework";
+
+.placeholder {
+
+  &-inner {
+    .middle-transform();
+    text-align: center;
+  }
+  &-icon {}
+  h3 {
+      margin: 20px auto 40px;
+  }
+
+  // default
+
+  &-default {
+    .placeholder-inner {}
+    .placeholder-icon {}
+    h3 {}
+    p {}
+    a {
+      &:focus {
+        text-decoration: none;
+      }
+    }
+  }
+}

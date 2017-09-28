@@ -1,0 +1,28 @@
+@import (reference) "~rework.less/rework";
+@import "../../../../.build/sprite.less";
+
+.placeholder {
+  &-network-error {
+    .placeholder-inner {}
+    .placeholder-icon {
+      .sprite(@network-error);
+    }
+    h3 {
+      .text-replace();
+      .sprite(@network-error-slogan);
+    }
+    p {}
+    a {
+      display: inline-block;
+      font-size: 14px;
+
+      padding: 10px 30px;
+      line-height: 1;
+      border-radius: 20px;
+
+      color: #000;
+      background-color: #ffc400;
+      border: 1px solid #000;
+    }
+  }
+}

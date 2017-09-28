@@ -1,7 +1,7 @@
 {
   "name": "PageNotFound",
   "description": "404 页",
-  "version": "1.0.0-rc.0",
+  "version": "1.0.0",
   "compatibility": {
     "chrome": "latest",
     "firefox": "latest",
@@ -9,6 +9,7 @@
     "ie": "9+"
   },
   "module": [
+    "images",
     "style"
   ],
   "format": "function",

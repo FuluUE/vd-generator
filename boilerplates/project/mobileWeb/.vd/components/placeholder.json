@@ -1,6 +1,6 @@
 {
-  "name": "PageNetworkError",
-  "description": "网络错误页",
+  "name": "Placeholder",
+  "description": "占位符",
   "version": "1.0.0",
   "compatibility": {
     "chrome": "latest",
@@ -10,7 +10,7 @@
   },
   "module": [
     "style",
-    "images"
+    "doc"
   ],
   "format": "function",
   "isPropCheck": true,
@@ -18,5 +18,5 @@
   "type": 0,
   "lifecycle": [],
   "author": "尹传武",
-  "camelCaseName": "pageNetworkError"
+  "camelCaseName": "placeholder"
 }
