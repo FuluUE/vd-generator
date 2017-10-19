@@ -14,7 +14,6 @@
             "react-redux",
             "redux-saga",
             "redux-actions",
-            "redux-reqs",
             "axios"
         ]
     },
@@ -30,7 +29,7 @@
             "sprite": "sprite",
             "style": "less",
             "data": "json",
-            "test": "test",
+            "test": "__test__",
             "document": "doc"
         },
         "build": {
@@ -50,7 +49,7 @@
         "resolve": {
             "alias": {
                 "rework": "rework.less/rework.less",
-                "sprite": "../../../../.build/sprite.less"
+                "sprite": "sprite.less"
             },
             "extensions": [
                 ".web.js",

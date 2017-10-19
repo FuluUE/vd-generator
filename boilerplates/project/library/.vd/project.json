@@ -21,7 +21,7 @@
             "sprite": "sprite",
             "style": "less",
             "data": "json",
-            "test": "test",
+            "test": "__test__",
             "document": "doc"
         },
         "build": {
