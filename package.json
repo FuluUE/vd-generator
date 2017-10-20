@@ -1,6 +1,6 @@
 {
   "name": "vd-generator",
-  "version": "0.1.0-dev.41",
+  "version": "0.1.0-dev.42",
   "description": "前端可视化开发平台-生成器",
   "files": [
     "boilerplates",
