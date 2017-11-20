@@ -1,10 +1,5 @@
-import ReduxReqs from 'redux-reqs';
 import axios from 'axios';
 import Api from '../configs/api';
-
-const reduxReqs = new ReduxReqs({
-  prefix: 'ASYNC'
-});
 
 if (__DEV__) {
   let data = Mock.mock({
@@ -23,19 +18,15 @@ if (__DEV__) {
   console.log('(1) data',data);
 
   let mock = new MockAdapter(axios);
+
   // 模拟 200 请求
-  mock.onGet(Api.getDatas).reply(data.status, data);
+  mock.onGet(Api.getData).reply(data.status, data);
   // 模拟网络错误请求
   // mock.onGet(Api.getData).networkError();
   // 模拟超时请求
   // mock.onGet(Api.getData).timeout();
 }
 
-reduxReqs
-  .get('ASYNC', Api.getData);
-
-export const { async } = reduxReqs.getCreateActions();
-
-export default reduxReqs.getReducers();
-
-export const watchSagas = reduxReqs.getWatchSagas();
+export function getData() {
+  return axios.get(Api.getData);
+}

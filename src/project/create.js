@@ -19,15 +19,17 @@ export default function createProject({ projectPath, config }) {
 
             dirConfig = config.directory.development;
             dirConfig.source = dirConfig.envName;
-            const appPath = join(projectPath, 'src', 'App.js');
             if (config.type === 'pcNative') {
                 config.directory.development.envName = 'app';
             }
-
             fs.writeFileSync(join(projectPath, '.vd', 'project.json'), JSON.stringify(config, null, 2));
-            if (config.type !== 'pcNative' && config.routerType !== 'BrowserRouter') {
-                const str = fs.readFileSync(appPath, 'utf8');
-                fs.writeFileSync(appPath, str.replace('BrowserRouter', 'HashRouter'))
+           
+            const appPath = join(projectPath, 'src', 'router.js');
+            if (fs.existsSync(appPath)) {
+                if (config.type !== 'pcNative' && config.routerType !== 'BrowserRouter') {
+                    const str = fs.readFileSync(appPath, 'utf8');
+                    fs.writeFileSync(appPath, str.replace('BrowserRouter', 'HashRouter'))
+                }
             }
         }
     } catch (error) {

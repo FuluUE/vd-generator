@@ -1,23 +1,19 @@
 import 'babel-polyfill';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { AppContainer } from 'react-hot-loader';
-import App from './App';
+import dva from 'dva';
+import createLoading from 'dva-loading';
+import createHistory from 'history/createBrowserHistory';
+import { message } from 'antd';
 
-const render = (Component) => {
-    ReactDOM.render(
-        <AppContainer>
-            <Component />
-        </AppContainer>
-        ,
-        document.getElementById('app')
-    );
-};
 
-render(App);
+const app = dva({
+  history: createHistory(),
+  onError(e) {
+    message.error(e.message, 3);
+  },
+});
 
-if (module.hot && process.env.NODE_ENV !== 'production') {
-    module.hot.accept(App, () => {
-        render(App);
-    });
-}
+app.use( createLoading() );
+
+app.router( require('./router') );
+
+app.start('#app');
