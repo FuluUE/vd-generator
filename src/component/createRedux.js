@@ -7,8 +7,6 @@ import render from '../utils/mustache';
 import resetIndex from './resetIndex';
 
 export default (config, opts) => {
-    console.log(config);
-
     const name = _.upperFirst(camelCase(opts.name));
     const camelCaseName = camelCase(name);
     opts.camelCaseName = camelCaseName;
@@ -84,6 +82,18 @@ export default (config, opts) => {
                 {
                     name,
                     ...opts.saga
+                })
+        );
+
+        const modelPath = join(config.dir, config.directory.source, 'models');
+        if (!existsSync(modelPath)) {
+            mkdirsSync(modelPath);
+        }
+        writeFileSync(join(modelPath, `${name}.js`),
+            render('model.mustache',
+                {
+                    name,
+                    camelCaseName
                 })
         );
     }
