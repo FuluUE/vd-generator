@@ -16,11 +16,11 @@ export default (project, component) => {
         removeSync(join(project.dir, dev.envName, 'services', `${name}.js`));
         // reduxReset(join(project.dir, dev.envName, dev.redux));
     }
-    resetIndex({
-        ...project,
-        directory: {
-            source: dev.envName,
-            component: dev.component,
-        }
-    });
+    // resetIndex({
+    //     ...project,
+    //     directory: {
+    //         source: dev.envName,
+    //         component: dev.component,
+    //     }
+    // });
 }
