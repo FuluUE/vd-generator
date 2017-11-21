@@ -11,7 +11,10 @@ export default (project, component) => {
     if (type === 1) {
         removeSync(join(project.dir, dev.envName, dev.container, `${name}.js`));
         removeSync(join(project.dir, dev.envName, dev.redux, `${name}.js`));
-        reduxReset(join(project.dir, dev.envName, dev.redux));
+        removeSync(join(project.dir, dev.envName, 'models', `${name}.js`));
+        removeSync(join(project.dir, dev.envName, 'routes', `${name}.js`));
+        removeSync(join(project.dir, dev.envName, 'services', `${name}.js`));
+        // reduxReset(join(project.dir, dev.envName, dev.redux));
     }
     resetIndex({
         ...project,

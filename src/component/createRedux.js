@@ -66,7 +66,7 @@ export default (config, opts) => {
         if (!existsSync(routePath)) {
             mkdirsSync(routePath);
         }
-        writeFileSync(join(routePath, `${name}.js`),
+        writeFileSync(join(routePath, `${camelCaseName}.js`),
             render('route.mustache',
                 {
                     name,
@@ -77,7 +77,7 @@ export default (config, opts) => {
         if (!existsSync(servicePath)) {
             mkdirsSync(servicePath);
         }
-        writeFileSync(join(servicePath, `${name}.js`),
+        writeFileSync(join(servicePath, `${camelCaseName}.js`),
             render('services.mustache',
                 {
                     name,
@@ -89,7 +89,7 @@ export default (config, opts) => {
         if (!existsSync(modelPath)) {
             mkdirsSync(modelPath);
         }
-        writeFileSync(join(modelPath, `${name}.js`),
+        writeFileSync(join(modelPath, `${camelCaseName}.js`),
             render('model.mustache',
                 {
                     name,
