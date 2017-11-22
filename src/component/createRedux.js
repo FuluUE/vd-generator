@@ -66,7 +66,7 @@ export default (config, opts) => {
         if (!existsSync(routePath)) {
             mkdirsSync(routePath);
         }
-        writeFileSync(join(routePath, `${camelCaseName}.js`),
+        writeFileSync(join(routePath, `${name}.js`),
             render('route.mustache',
                 {
                     name,
