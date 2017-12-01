@@ -23,12 +23,12 @@ export default function createProject({ projectPath, config }) {
                 config.directory.development.envName = 'app';
             }
             fs.writeFileSync(join(projectPath, '.vd', 'project.json'), JSON.stringify(config, null, 2));
-           
-            const appPath = join(projectPath, 'src', 'router.js');
+
+            const appPath = join(projectPath, 'src', 'index.js');
             if (fs.existsSync(appPath)) {
                 if (config.type !== 'pcNative' && config.routerType !== 'BrowserRouter') {
                     const str = fs.readFileSync(appPath, 'utf8');
-                    fs.writeFileSync(appPath, str.replace('BrowserRouter', 'HashRouter'))
+                    fs.writeFileSync(appPath, str.replace('createBrowserHistory', 'createHashHistory'))
                 }
             }
         }
