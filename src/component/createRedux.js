@@ -23,10 +23,19 @@ export default (config, opts) => {
     const module = {};
     _.forEach(opts.module, (item) => {
         module[item] = camelCaseName;
-        if (item !== 'style' && item !== 'doc') {
+        if (item !== 'style' && item !== 'doc' && item !== '__tests__') {
             mkdirsSync(join(componentPath, config.directory[item] || item));
         }
     });
+
+    if (module.__tests__) {
+        const testPath = join(componentPath, '__tests__');
+        mkdirsSync(testPath);
+        writeFileSync(join(testPath, `${camelCaseName}.js`),
+            render('component/test.mustache', {
+                name
+            }));
+    }
 
     if (module.style) {
         const stylePath = join(componentPath, config.directory.style);
