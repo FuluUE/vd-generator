@@ -19,7 +19,9 @@ export default {
       const testRes = yield call({{camelCaseName}}Service.{{name}});
       yield put({
         type: 'test',
-        payload: {},
+        payload: {
+          data: testRes
+        },
       });
     },
   },
