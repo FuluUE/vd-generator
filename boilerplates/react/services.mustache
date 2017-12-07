@@ -24,16 +24,9 @@ import config from '../configs/config';
 //   // mock.onPost(config.host.login + Api.authorization).timeout();
 // }
 
-export function {{name}}(code) {
+export function {{name}}() {
   return axios({
     method: '{{method}}',
     url: config.host.login + Api.{{requestVarName}},
-    {{#method}}
-    data: JSON.stringify({
-      code: code,
-      redirect_uri: encodeURIComponent(window.location.protocol + '//' + window.location.host),
-      state: 'xyz',
-    }),
-    {{/method}}
   });
 }
