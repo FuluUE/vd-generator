@@ -16,7 +16,7 @@ export default {
   },
   effects: {
     *tests(action, {call, put}) {
-      const testRes = yield call({{camelCaseName}}Service.getToken, '');
+      const testRes = yield call();
       yield put({
         type: 'test',
         payload: {},
