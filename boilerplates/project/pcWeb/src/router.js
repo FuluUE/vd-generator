@@ -17,9 +17,7 @@ const { ConnectedRouter } = routerRedux;
 //   },
 // ];
 
-const RouterWrapper = (params) => {
-  console.log('Router params', params);
-  let { history, app } = params;
+const RouterWrapper = ({ history, app }) => {
 
   const App = dynamic({
     app,
