@@ -1,39 +1,22 @@
 {
-    "dir": "__dirname",
-    "dll": {
-        "name": "vendor",
-        "target": "var",
-        "content": [
-            "babel-polyfill",
-            "react",
-            "react-dom"
-        ]
+  "dir": "__dirname",
+  "dll": {
+    "name": "dora",
+    "target": "umd2",
+    "content": [
+      "babel-polyfill"
+    ]
+  },
+  "directory": {
+    "development": {
+      "envName": "src",
+      "component": "components"
     },
-    "directory": {
-        "development": {
-            "envName": "src",
-            "component": "components",
-            "container": "containers",
-            "redux": "redux",
-            "store": "store",
-            "util": "utils",
-            "config": "configs",
-            "sprite": "sprite",
-            "style": "less",
-            "data": "json",
-            "test": "__test__",
-            "document": "doc"
-        },
-        "build": {
-            "envName": ".build"
-        },
-        "production": {
-            "envName": "dist",
-            "resource": "resources",
-            "dll": "dll",
-            "javascript": "js",
-            "style": "css",
-            "asset": "images"
-        }
+    "production": {
+      "envName": "library",
+      "dist": "dist",
+      "es": "es",
+      "lib": "lib"
     }
+  }
 }

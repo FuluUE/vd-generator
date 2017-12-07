@@ -1,0 +1,22 @@
+{
+  "name": "App",
+  "description": "主框架+权限",
+  "version": "1.0.0",
+  "compatibility": {
+    "chrome": "latest",
+    "firefox": "latest",
+    "safari": "latest",
+    "ie": "9+"
+  },
+  "module": [
+    "images",
+    "style"
+  ],
+  "format": "function",
+  "isPropCheck": true,
+  "note": "",
+  "type": 0,
+  "lifecycle": [],
+  "author": "尹传武",
+  "camelCaseName": "app"
+}

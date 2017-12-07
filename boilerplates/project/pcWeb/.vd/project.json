@@ -7,31 +7,24 @@
       "babel-polyfill",
       "react",
       "react-dom",
-      "history",
-      "react-router",
-      "react-router-dom",
-      "redux",
-      "react-redux",
-      "redux-saga",
-      "redux-actions",
+      "dva",
       "axios"
     ]
   },
   "directory": {
     "development": {
       "envName": "src",
-      "component": "components",
-      "container": "containers",
-      "redux": "redux",
-      "store": "store",
-      "util": "utils",
-      "config": "configs",
       "sprite": "sprite",
+      "component": "components",
+      "container": "routes",
+      "model": "models",
+      "service": "services",
+      "config": "configs",
+      "util": "utils",
       "style": "less",
       "data": "json",
       "test": "__test__",
-      "document": "doc",
-      "source": "src"
+      "document": "doc"
     },
     "build": {
       "envName": ".build"
@@ -47,6 +40,7 @@
   },
   "general": {
     "publicPath": "",
+    "target": "web",
     "resolve": {
       "alias": {
         "rework": "rework.less/rework.less",
@@ -54,8 +48,7 @@
       },
       "extensions": [
         ".web.js",
-        ".js",
-        ".json"
+        ".js"
       ],
       "mainFields": [
         "browser",
@@ -69,25 +62,20 @@
     "performance": {
       "maxAssetSize": 400000,
       "maxEntrypointSize": 600000
-    },
-    "target": "web"
+    }
   },
   "compiler": {
     "css": {
       "less": {
-        "minimize": true
+          "minimize": true
       },
       "postcss": {
-        "autoprefixer": {
-          "browsers": [
-            "last 3 versions",
-            "> 1%"
-          ]
-        },
-        "pxtorem": {
-          "rootValue": "100",
-          "propWhiteList": []
-        }
+          "autoprefixer": {
+              "browsers": [
+                  "last 3 versions",
+                  "> 1%"
+              ]
+          }
       }
     },
     "asset": {
@@ -111,16 +99,14 @@
   "theme": {
     "border-radius-base": "0px",
     "border-radius-sm": "0px",
-    "primary-color": "#0b87fd",
-    "brand-primary": "#43a5df",
-    "brand-primary-tap": "#43a5df"
+    "primary-color": "#0b87fd"
   },
   "debug": {
     "port": 3000,
     "sync": false,
     "browsersync": {
-      "port": 4000,
-      "open": true
+        "port": 4000,
+        "open": true
     }
   },
   "preview": {
@@ -131,18 +117,5 @@
     "port": "",
     "token": "",
     "environment": "Node"
-  },
-  "id": "bd6924e0-cdc7-11e7-9087-1f368dfc2002",
-  "type": "pcWeb",
-  "name": "tt",
-  "productName": "tt",
-  "description": "tt",
-  "version": "1.0.0",
-  "compatibility": {
-    "chrome": "latest",
-    "firefox": "latest",
-    "safari": "latest",
-    "ie": "9+"
-  },
-  "routerType": "BrowserRouter"
+  }
 }

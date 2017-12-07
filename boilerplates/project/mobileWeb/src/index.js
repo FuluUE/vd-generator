@@ -1,23 +1,36 @@
 import 'babel-polyfill';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { AppContainer } from 'react-hot-loader';
-import App from './App';
+import dva from 'dva';
+import createLoading from 'dva-loading';
+import createHistory from 'history/createBrowserHistory';
+// import createHistory from 'history/createHashHistory';
+import { Toast } from 'antd-mobile';
 
-const render = (Component) => {
-    ReactDOM.render(
-        <AppContainer>
-            <Component />
-        </AppContainer>
-        ,
-        document.getElementById('app')
-    );
-};
+// =======================
+// 1. Initialize
+// =======================
+const app = dva({
+  history: createHistory(),
+  onError(e, dispatch) {
+    Toast.error(e.Toast, 3);
+  },
+});
 
-render(App);
+// =======================
+// 2. Plugins
+// =======================
+app.use( createLoading() );
 
-if (module.hot && process.env.NODE_ENV !== 'production') {
-    module.hot.accept(App, () => {
-        render(App);
-    });
-}
+// =======================
+// 3. Model
+// =======================
+// Moved to router.js
+
+// =======================
+// 4. Router
+// =======================
+app.router( require('./Router') );
+
+// =======================
+// 5. Start
+// =======================
+app.start('#app');
