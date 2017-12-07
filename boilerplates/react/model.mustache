@@ -1,5 +1,5 @@
 // import queryString from 'query-string';
-import * as {{camelCaseName}}Service from '../services/{{name}}';
+import * as {{camelCaseName}}Service from '../services/{{camelCaseName}}';
 
 export default {
   namespace: '{{camelCaseName}}',
@@ -16,7 +16,7 @@ export default {
   },
   effects: {
     *tests(action, {call, put}) {
-      const testRes = yield call();
+      const testRes = yield call({{camelCaseName}}Service.{{camelCaseName}});
       yield put({
         type: 'test',
         payload: {},
