@@ -108,4 +108,6 @@ export default (config, opts) => {
     }
 
     writeFileSync(join(vdConfigPath, `${camelCaseName}.json`), JSON.stringify(opts, null, 2));
+
+    resetIndex(config);
 }
