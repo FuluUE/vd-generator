@@ -3,11 +3,8 @@ import {{name}} from '../components/{{name}}';
 
 
 const mapStateToProps = (state) => {
-  const { app, loading } = state;
-
   return {
-    app,
-    loading,
+    ...state,
   };
 }
 

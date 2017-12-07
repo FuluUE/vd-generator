@@ -1,37 +1,34 @@
 // import queryString from 'query-string';
 import * as {{camelCaseName}}Service from '../services/{{name}}';
 
-
 export default {
-  namespace: '{{name}}',
+  namespace: '{{camelCaseName}}',
   state: {},
   subscriptions: {
-    setup({ dispatch, history }) {
-      return history.listen(({ pathname, search }) => {
-        // const query = queryString.parse(search);
-        // if (pathname === '/test') {
-        //   dispatch({type: 'fetch', payload: query});
-        // }
+    setup({history, dispatch}, onError) {
+      // return history.listen( ({pathname, search}) => {
+      //   const query = queryString.parse(search);
+      //   if (pathname === '/') {
+      //
+      //   }
+      // });
+    }
+  },
+  effects: {
+    *tests(action, {call, put}) {
+      const testRes = yield call({{camelCaseName}}Service.getToken, '');
+      yield put({
+        type: 'test',
+        payload: {},
       });
     },
   },
-  effects: {
-    *fetch({ payload }, { call, put }) {
-      // const { data } = yield call({{camelCaseName}}Service.getData);
-      // yield put({
-      //   type: 'get',
-      //   payload: {
-      //     data,
-      //   }
-      // });
-    },
-  },
   reducers: {
-    get(state, { payload }) {
-      // return {
-      //   ...state,
-      //   payload,
-      // }
-    },
+    test(state, {payload}) {
+      return {
+        ...state,
+        ...payload,
+      };
+    }
   },
-}
+};
