@@ -10,7 +10,7 @@ export default (project, component) => {
     removeSync(join(project.dir, dev.envName, dev.component, name));
     if (type === 1) {
         removeSync(join(project.dir, dev.envName, dev.container, `${name}.js`));
-        removeSync(join(project.dir, dev.envName, dev.redux, `${name}.js`));
+        // removeSync(join(project.dir, dev.envName, dev.redux, `${name}.js`));
         removeSync(join(project.dir, dev.envName, 'models', `${name}.js`));
         removeSync(join(project.dir, dev.envName, 'routes', `${name}.js`));
         removeSync(join(project.dir, dev.envName, 'services', `${name}.js`));
