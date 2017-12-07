@@ -1,5 +1,6 @@
 import { connect } from 'dva';
-import App from '../components/App';
+import Async from '../components/Async';
+
 
 const mapStateToProps = (state) => {
   return {
@@ -7,4 +8,4 @@ const mapStateToProps = (state) => {
   };
 }
 
-export default connect(mapStateToProps)(App)
+export default connect(mapStateToProps)(Async);

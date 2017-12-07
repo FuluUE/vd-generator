@@ -28,7 +28,7 @@ export default {
       // Redux Saga
       // console.log(params2);
 
-      const testRes = yield call(appService.getToken, '');
+      const testRes = yield call(appService.getTest);
 
       yield put({
         type: 'test',

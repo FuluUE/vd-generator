@@ -23,10 +23,15 @@ const RouterWrapper = (params) => {
 
   const App = dynamic({
     app,
-    // models: () => [
-    //   import('./models/app'),
-    // ],
     component: () => import('./routes/App'),
+  });
+
+  const Async = dynamic({
+    app,
+    models: () => [
+      import('./models/async'),
+    ],
+    component: () => import('./routes/Async'),
   });
 
   const PageForbidden = dynamic({
@@ -65,6 +70,7 @@ const RouterWrapper = (params) => {
            ))
          } */}
          <Route exact path="/" component={App} />
+         <Route exact path="/async" component={Async} />
          {/* 403 */}
          <Route exact path="/403" component={PageForbidden} />
          {/* 500 */}

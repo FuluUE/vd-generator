@@ -1,0 +1,31 @@
+{
+  "name": "Async",
+  "description": "异步调用测试组件",
+  "version": "1.0.0",
+  "compatibility": {
+    "chrome": "latest",
+    "firefox": "latest",
+    "safari": "latest",
+    "ie": "9+"
+  },
+  "format": "class",
+  "lifecycleMountingOptions": [
+    "constructor",
+    "render",
+    "componentWillMount"
+  ],
+  "isPropCheck": true,
+  "lifecycle": [
+    "constructor",
+    "render",
+    "componentWillMount"
+  ],
+  "author": "尹传武",
+  "saga": {
+    "url": "/api/v1/getAsync",
+    "requestVarName": "getAsync",
+    "method": "get"
+  },
+  "type": 1,
+  "camelCaseName": "async"
+}

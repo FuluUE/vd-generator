@@ -1,4 +1,5 @@
 export { default as App } from './App';
+export { default as Async } from './Async';
 export { default as Icon } from './Icon';
 export { default as PageForbidden } from './PageForbidden';
 export { default as PageNetworkError } from './PageNetworkError';
