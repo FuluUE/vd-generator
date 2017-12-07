@@ -23,7 +23,7 @@ const RouterWrapper = (params) => {
 
   const App = dynamic({
     app,
-    component: () => import('./routes/App'),
+    component: () => import('./components/App'),
   });
 
   const Async = dynamic({
