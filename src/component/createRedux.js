@@ -89,7 +89,7 @@ export default (config, opts) => {
         writeFileSync(join(servicePath, `${camelCaseName}.js`),
             render('services.mustache',
                 {
-                    name,
+                    camelCaseName,
                     ...opts.saga
                 })
         );
