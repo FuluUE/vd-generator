@@ -16,7 +16,7 @@ export default {
   },
   effects: {
     *tests(action, {call, put}) {
-      const testRes = yield call(asyncService.Async);
+      const testRes = yield call(asyncService.async);
       yield put({
         type: 'test',
         payload: testRes,

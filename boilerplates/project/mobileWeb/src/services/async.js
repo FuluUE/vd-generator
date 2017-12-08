@@ -24,7 +24,7 @@ if (__DEV__) {
   // mock.onGet(Api.getAsync).timeout();
 }
 
-export function Async() {
+export function async() {
   return axios({
     method: 'get',
     url: Api.getAsync,
