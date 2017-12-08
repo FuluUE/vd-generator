@@ -65,7 +65,12 @@ class {{name}} extends React.Component {
 
   }
 {{/lifecycle.componentWillUnmount}}
+{{#lifecycle.componentDidCatch}}
 
+  componentDidCatch(error, info) {
+
+  }
+{{/lifecycle.componentDidCatch}}
   render() {
     return (
       <div>
