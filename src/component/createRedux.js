@@ -14,7 +14,7 @@ export default (config, opts) => {
     const vdConfigPath = join(config.dir, '.vd', 'components');
     mkdirsSync(vdConfigPath);
 
-    if (!existsSync(componentPath)) {
+    if (!existsSync(join(vdConfigPath, `${camelCaseName}.json`))) {
         mkdirsSync(componentPath);
         writeFileSync(join(componentPath, 'index.js'),
             render('component/index.mustache',
