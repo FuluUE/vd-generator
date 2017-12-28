@@ -1,21 +1,21 @@
 import path from 'path';
-import fs from 'fs';
+import fs from 'fs-extra';
 
-export default (project) => {
-    const { dir, directory } = project;
+function read(filepath, componentPath, parentPath) {
+    const { name, ext } = path.parse(filepath);
+    if (fs.statSync(filepath).isDirectory()) {
+        const components = fs.readdirSync(filepath);
+        return components.map(item => read(path.join(filepath, item), componentPath, filepath)).join('\n');
+    } else if (name !== 'index' && ext === '.js') {
+        return `export { default as ${name} } from './${path.relative(componentPath, parentPath).replace(/\\/g, '/')}';`;
+    }
+}
+
+export default ({ dir, type }) => {
     if (!fs.existsSync(dir)) return console.error('project dir not exist');
-    const componentCfgPath = path.join(dir, '.vd', 'components');
-    if (fs.existsSync(componentCfgPath)) {
-        const components = fs.readdirSync(componentCfgPath);
-        let str = '';
-        components.forEach(item => {
-            let name = path.parse(item).name;
-            if (project.type !== 'library') {
-                name = `${name[0].toUpperCase()}${name.substr(1)}`
-            }
-            str += `export { default as ${name} } from './${name}';\n`;
-        });
-        const componentPath = path.join(dir, directory.source, directory.component);
-        fs.writeFileSync(path.join(componentPath, 'index.js'), str);
+    const componentPath = path.join(dir, 'src', 'components');
+    if (fs.existsSync(componentPath)) {
+        const components = fs.readdirSync(componentPath);
+        fs.writeFileSync(path.join(componentPath, 'index.js'), read(componentPath, componentPath));
     }
 }
