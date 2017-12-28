@@ -7,8 +7,16 @@ import render from '../utils/mustache';
 import resetIndex from './resetIndex';
 
 export default function createComponent(config, opts = { type: 0 }) {
+
+    let baseComponentPath = join(config.dir, config.directory.source, config.directory.component);
+
+    if (opts.group) {
+        let paths = opts.group.split('>').map(e => e.trim());
+        paths.forEach(item => baseComponentPath = join(baseComponentPath, item));
+    }
+
     if (config.type === 'library') {
-        const componentPath = join(config.dir, config.directory.source, config.directory.component, opts.name);
+        const componentPath = join(baseComponentPath, opts.name);
         mkdirsSync(componentPath);
         writeFileSync(join(componentPath, 'index.js'), '');
         const module = {};
@@ -33,7 +41,7 @@ export default function createComponent(config, opts = { type: 0 }) {
             const name = _.upperFirst(camelCase(opts.name));
             const camelCaseName = camelCase(name);
             opts.camelCaseName = camelCaseName;
-            const componentPath = join(config.dir, config.directory.source, config.directory.component, name);
+            const componentPath = join(baseComponentPath, name);
             mkdirsSync(componentPath);
             const vdConfigPath = join(config.dir, '.vd', 'components');
             mkdirsSync(vdConfigPath);
@@ -162,7 +170,13 @@ export default function createComponent(config, opts = { type: 0 }) {
                 );
             }
 
-            writeFileSync(join(vdConfigPath, `${camelCaseName}.json`), JSON.stringify(opts, null, 2));
+
+            let filename = `${camelCaseName}.json`;
+            if (opts.group) {
+                filename = `${opts.group}>${camelCaseName}.json`;
+            }
+
+            writeFileSync(join(vdConfigPath, filename), JSON.stringify(opts, null, 2));
         }
     }
 

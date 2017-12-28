@@ -3,7 +3,7 @@ import fs from 'fs';
 
 export default (project) => {
     const { dir, directory } = project;
-    if (!fs.existsSync(dir)) return console.erro('project dir not exist');
+    if (!fs.existsSync(dir)) return console.error('project dir not exist');
     const componentCfgPath = path.join(dir, '.vd', 'components');
     if (fs.existsSync(componentCfgPath)) {
         const components = fs.readdirSync(componentCfgPath);
