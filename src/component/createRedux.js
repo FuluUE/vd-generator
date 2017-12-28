@@ -25,7 +25,7 @@ export default (config, opts) => {
 
     let filename = `${camelCaseName}.json`;
     if (opts.group) {
-        filename = `${opts.group}>${camelCaseName}.json`;
+        filename = `${opts.group.replace(/>/g, '-')}-${camelCaseName}.json`;
     }
 
 

@@ -173,7 +173,7 @@ export default function createComponent(config, opts = { type: 0 }) {
 
             let filename = `${camelCaseName}.json`;
             if (opts.group) {
-                filename = `${opts.group}>${camelCaseName}.json`;
+                filename = `${opts.group.replace(/>/g, '-')}-${camelCaseName}.json`;
             }
 
             writeFileSync(join(vdConfigPath, filename), JSON.stringify(opts, null, 2));
