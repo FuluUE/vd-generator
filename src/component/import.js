@@ -2,6 +2,7 @@ import { join, parse } from 'path';
 import { existsSync, mkdirsSync, readFileSync, readdirSync, copySync, readJSONSync } from 'fs-extra';
 import reduxReset from './reduxReset';
 import resetIndex from './resetIndex';
+import camelCase from '../utils/camelCase';
 
 export default (srcProject, destProject, components) => {
     const srcProjectDir = join(srcProject.dir, 'src');
@@ -41,9 +42,9 @@ export default (srcProject, destProject, components) => {
 
 
             if (cfg.type === 1) {
-                copySync(join(conPath, `${cfg.name}.js`), join(destConPath, `${cfg.name}.js`));
-                copySync(join(reduxPath, `${cfg.name}.js`), join(destReduxPath, `${cfg.name}.js`));
-                copySync(join(modelPath, `${cfg.name}.js`), join(destModelsPath, `${cfg.name}.js`));
+                copySync(join(conPath, `${cfg.name}.js`), join(destConPath, `${camelCase(cfg.name)}.js`));
+                copySync(join(reduxPath, `${cfg.name}.js`), join(destReduxPath, `${camelCase(cfg.name)}.js`));
+                copySync(join(modelPath, `${cfg.name}.js`), join(destModelsPath, `${camelCase(cfg.name)}.js`));
             }
         }
     });
