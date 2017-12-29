@@ -5,6 +5,7 @@ import { camelCase, getPaths } from '../utils';
 
 export default (srcProject, destProject, components) => {
     const destComponents = [];
+    const destComCfgPath = join(destProject.dir, '.vd', 'components');
     readdirSync(destComCfgPath).forEach(item => {
         destComponents.push(item.toLocaleLowerCase());
     });
