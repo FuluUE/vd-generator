@@ -2,7 +2,6 @@ import _ from 'lodash';
 import { join } from 'path';
 import { existsSync, mkdirsSync, writeFileSync, readFileSync } from 'fs-extra';
 import { camelCase } from '../utils';
-import reduxReset from './reduxReset';
 import render from '../utils/mustache';
 import resetIndex from './resetIndex';
 
@@ -150,7 +149,6 @@ export default function createComponent(config, opts = { type: 0 }) {
                             })
                     );
 
-                    reduxReset(reduxPath);
                 }
 
                 writeFileSync(join(componentPath, `${name}.js`),

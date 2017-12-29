@@ -1,6 +1,5 @@
 import { join } from 'path';
 import { removeSync } from 'fs-extra';
-import reduxReset from './reduxReset';
 import resetIndex from './resetIndex';
 
 export default (project, component) => {

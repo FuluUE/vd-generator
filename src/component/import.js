@@ -1,6 +1,5 @@
 import { join, parse } from 'path';
 import { existsSync, mkdirsSync, readFileSync, readdirSync, copySync, readJSONSync } from 'fs-extra';
-import reduxReset from './reduxReset';
 import resetIndex from './resetIndex';
 import camelCase from '../utils/camelCase';
 

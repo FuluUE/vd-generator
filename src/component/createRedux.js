@@ -1,8 +1,7 @@
 import _ from 'lodash';
 import { join } from 'path';
 import { existsSync, mkdirsSync, writeFileSync, readFileSync, readJSONSync } from 'fs-extra';
-import { camelCase } from '../utils';
-import reduxReset from './reduxReset';
+import { camelCase, getPaths } from '../utils';
 import render from '../utils/mustache';
 import resetIndex from './resetIndex';
 
@@ -11,27 +10,12 @@ export default (config, opts) => {
     const camelCaseName = camelCase(name);
     opts.camelCaseName = camelCaseName;
 
+    const paths = getPaths({ dir: config.dir, group: opts.group, name });
 
-    let baseComponentPath = join(config.dir, config.directory.source, config.directory.component);
-
-    if (opts.group) {
-        let paths = opts.group.split('>').map(e => e.trim());
-        paths.forEach(item => baseComponentPath = join(baseComponentPath, item));
-    }
-
-    const componentPath = join(baseComponentPath, name);
-    const vdConfigPath = join(config.dir, '.vd', 'components');
-    mkdirsSync(vdConfigPath);
-
-    let filename = `${camelCaseName}.json`;
-    if (opts.group) {
-        filename = `${opts.group.replace(/>/g, '-')}-${camelCaseName}.json`;
-    }
-
-
-    if (!existsSync(join(vdConfigPath, filename))) {
-        mkdirsSync(componentPath);
-        writeFileSync(join(componentPath, 'index.js'),
+    if (!existsSync(paths.vdConfig)) {
+        // begin create component
+        mkdirsSync(paths.component);
+        writeFileSync(join(paths.component, 'index.js'),
             render('component/index.mustache',
                 { name: name })
         );
@@ -40,12 +24,12 @@ export default (config, opts) => {
         _.forEach(opts.module, (item) => {
             module[item] = camelCaseName;
             if (item !== 'style' && item !== 'doc' && item !== '__tests__') {
-                mkdirsSync(join(componentPath, config.directory[item] || item));
+                mkdirsSync(join(paths.component, config.directory[item] || item));
             }
         });
 
         if (module.__tests__) {
-            const testPath = join(componentPath, '__tests__');
+            const testPath = join(paths.component, '__tests__');
             mkdirsSync(testPath);
             writeFileSync(join(testPath, `${camelCaseName}.js`),
                 render('component/test.mustache', {
@@ -54,12 +38,12 @@ export default (config, opts) => {
         }
 
         if (module.style) {
-            const stylePath = join(componentPath, config.directory.style);
+            const stylePath = join(paths.component, config.directory.style);
             mkdirsSync(stylePath);
             writeFileSync(join(stylePath, `${camelCaseName}.less`), '');
         }
         if (module.doc) {
-            const docPath = join(componentPath, config.directory.document);
+            const docPath = join(paths.component, config.directory.document);
             mkdirsSync(docPath);
             writeFileSync(join(docPath, 'index.md'), `${name} Doc`);
         }
@@ -69,7 +53,7 @@ export default (config, opts) => {
 
         _.forEach(opts.lifecycle, (item) => lifecycle[item] = true);
 
-        writeFileSync(join(componentPath, `${name}.js`),
+        writeFileSync(join(paths.component, `${name}.js`),
             render('component/component.mustache', {
                 ...opts,
                 lifecycle,
@@ -77,36 +61,36 @@ export default (config, opts) => {
                 module
             })
         );
+        // end create component
     } else {
         opts = {
-            ...readJSONSync(join(vdConfigPath, `${camelCaseName}.json`)),
+            ...readJSONSync(paths.vdConfig),
             ...opts,
         }
     }
     if (opts.saga) {
-        const apiPath = join(config.dir, config.directory.source, config.directory.config, 'api.js');
+        const apiPath = join(config.dir, 'src', 'configs', 'api.js');
         let apiContent = readFileSync(apiPath, 'utf8');
         apiContent = apiContent.replace('export default', '').replace(';', '');
         apiContent = JSON.parse(apiContent);
         apiContent[opts.saga.requestVarName] = opts.saga.url;
         writeFileSync(apiPath, `export default ${JSON.stringify(apiContent, null, 2)};`);
 
-        const routePath = join(config.dir, config.directory.source, 'routes');
-        if (!existsSync(routePath)) {
-            mkdirsSync(routePath);
+
+        if (!existsSync(paths.route)) {
+            mkdirsSync(paths.route);
         }
-        writeFileSync(join(routePath, `${name}.js`),
+        writeFileSync(join(paths.route, `${name}.js`),
             render('route.mustache',
                 {
                     name,
                     ...opts.saga
                 })
         );
-        const servicePath = join(config.dir, config.directory.source, 'services');
-        if (!existsSync(servicePath)) {
-            mkdirsSync(servicePath);
+        if (!existsSync(paths.service)) {
+            mkdirsSync(paths.service);
         }
-        writeFileSync(join(servicePath, `${camelCaseName}.js`),
+        writeFileSync(join(paths.service, `${camelCaseName}.js`),
             render('services.mustache',
                 {
                     camelCaseName,
@@ -114,11 +98,10 @@ export default (config, opts) => {
                 })
         );
 
-        const modelPath = join(config.dir, config.directory.source, 'models');
-        if (!existsSync(modelPath)) {
-            mkdirsSync(modelPath);
+        if (!existsSync(paths.model)) {
+            mkdirsSync(paths.model);
         }
-        writeFileSync(join(modelPath, `${camelCaseName}.js`),
+        writeFileSync(join(paths.model, `${camelCaseName}.js`),
             render('model.mustache',
                 {
                     name,
@@ -127,7 +110,7 @@ export default (config, opts) => {
         );
     }
 
-    writeFileSync(join(vdConfigPath, filename), JSON.stringify(opts, null, 2));
+    writeFileSync(paths.vdConfig, JSON.stringify(opts, null, 2));
 
     resetIndex(config);
 }
