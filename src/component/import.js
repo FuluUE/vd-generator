@@ -11,7 +11,7 @@ export default (srcProject, destProject, components) => {
     });
     Object.keys(components).forEach(filename => {
         if (components[filename] && destComponents.indexOf(filename.toLocaleLowerCase()) === -1) {
-            const cfg = readJSONSync(join(comCfgPath, filename), 'utf8');
+            const cfg = readJSONSync(join(srcProject.dir, '.vd', 'components', filename), 'utf8');
 
             const paths = getPaths({ dir: srcProject.dir, group: cfg.group, name: cfg.name });
             const destPaths = getPaths({ dir: destProject.dir, group: cfg.group, name: cfg.name });
