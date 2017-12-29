@@ -6,6 +6,7 @@ import camelCase from './camelCase';
 export { camelCase };
 
 export const getPaths = ({ dir, name, group }) => {
+    let component = join(dir, 'src', 'components');
     let route = join(dir, 'src', 'routes');
     let service = join(dir, 'src', 'services');
     let model = join(dir, 'src', 'models');
