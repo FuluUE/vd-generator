@@ -1,43 +1,53 @@
 import { join, parse } from 'path';
-import { existsSync, mkdirsSync, readFileSync, readdirSync, copySync } from 'fs-extra';
+import { existsSync, mkdirsSync, readFileSync, readdirSync, copySync, readJSONSync } from 'fs-extra';
 import reduxReset from './reduxReset';
 import resetIndex from './resetIndex';
 
 export default (srcProject, destProject, components) => {
-    const srcProjectDir = srcProject.dir;
-    const destProjectDir = destProject.dir;
-    const dev = srcProject.directory.development;
-    const destDev = destProject.directory.development;
-    const comCfgPath = join(srcProjectDir, '.vd', 'components');
-    const comPath = join(srcProjectDir, dev.envName, dev.component);
-    const conPath = join(srcProjectDir, dev.envName, dev.container);
-    const reduxPath = join(srcProjectDir, dev.envName, dev.redux);
-    const destComCfgPath = join(destProjectDir, '.vd', 'components');
-    const destComPath = join(destProjectDir, destDev.envName, destDev.component);
-    const destConPath = join(destProjectDir, destDev.envName, destDev.container);
-    const destReduxPath = join(destProjectDir, destDev.envName, destDev.redux);
+    const srcProjectDir = join(srcProject.dir, 'src');
+    const destProjectDir = join(destProject.dir, 'src');
+
+    const comCfgPath = join(srcProject.dir, '.vd', 'components');
+    const comPath = join(srcProjectDir, 'components');
+    const conPath = join(srcProjectDir, 'routes');
+    const reduxPath = join(srcProjectDir, 'services');
+    const modelPath = join(srcProjectDir, 'models');
+
+    const destComCfgPath = join(destProject.dir, '.vd', 'components');
+    const destComPath = join(destProjectDir, 'components');
+    const destConPath = join(destProjectDir, 'routes');
+    const destReduxPath = join(destProjectDir, 'services');
+    const destModelsPath = join(destProjectDir, 'models');
     if (existsSync(destComCfgPath)) mkdirsSync(destComCfgPath);
     const destComponents = [];
     readdirSync(destComCfgPath).forEach(item => {
-        destComponents.push(parse(item).name.toLocaleLowerCase());
+        destComponents.push(item.toLocaleLowerCase());
     });
-    Object.keys(components).forEach(key => {
-        if (components[key] && destComponents.indexOf(key.toLocaleLowerCase()) === -1) {
-            const cfg = JSON.parse(readFileSync(join(comCfgPath, `${key}.json`), 'utf8'));
-            copySync(join(comCfgPath, `${key}.json`), join(destComCfgPath, `${key}.json`));
-            copySync(join(comPath, key), join(destComPath, key));
+    Object.keys(components).forEach(filename => {
+        if (components[filename] && destComponents.indexOf(filename.toLocaleLowerCase()) === -1) {
+            const cfg = readJSONSync(join(comCfgPath, filename), 'utf8');
+            copySync(join(comCfgPath, filename), join(destComCfgPath, filename));
+
+            // begin copy components
+            let componentPath = comPath;
+            let destComponentPath = destComPath;
+            if (cfg.group) {
+                let paths = cfg.group.split('>').map(e => e.trim());
+                paths.forEach(item => componentPath = join(componentPath, item));
+                paths.forEach(item => destComponentPath = join(destComponentPath, item));
+            }
+            copySync(join(componentPath, cfg.name), join(destComponentPath, cfg.name));
+            // end copy components
+
+
             if (cfg.type === 1) {
-                copySync(join(conPath, `${key}.js`), join(destConPath, `${key}.js`));
-                copySync(join(reduxPath, `${key}.js`), join(destReduxPath, `${key}.js`));
-                reduxReset(destReduxPath);
+                copySync(join(conPath, `${cfg.name}.js`), join(destConPath, `${cfg.name}.js`));
+                copySync(join(reduxPath, `${cfg.name}.js`), join(destReduxPath, `${cfg.name}.js`));
+                copySync(join(modelPath, `${cfg.name}.js`), join(destModelsPath, `${cfg.name}.js`));
             }
         }
     });
     resetIndex({
-        ...destProject,
-        directory: {
-            source: destDev.envName,
-            component: destDev.component,
-        }
+        ...destProject
     });
 }
