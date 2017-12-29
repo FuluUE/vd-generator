@@ -24,9 +24,9 @@ export const getPaths = ({ dir, name, group }) => {
 
         component = join(component, name);
 
-        vdConfig = join(config, `${group.replace(/>/g, '-')}-${camelCase(name)}.json`);
+        vdConfig = join(vdConfig, `${group.replace(/>/g, '-')}-${camelCase(name)}.json`);
     } else {
-        vdConfig = join(config, `${camelCase(name)}.json`);
+        vdConfig = join(vdConfig, `${camelCase(name)}.json`);
     }
     return { component, route, service, model, vdConfig };
 }
