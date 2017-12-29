@@ -11,11 +11,14 @@ export const getPaths = ({ dir, name, group }) => {
     let service = join(dir, 'src', 'services');
     let model = join(dir, 'src', 'models');
     let vdConfig = join(dir, '.vd', 'components');
+    let groupPath = '';
 
     mkdirsSync(vdConfig);
 
     if (group) {
         let paths = group.split('>').map(e => e.trim());
+
+        groupPath = group.replace(/>/g, '/') + '/';
 
         paths.forEach(item => component = join(component, item));
         paths.forEach(item => route = join(route, item));
@@ -28,5 +31,5 @@ export const getPaths = ({ dir, name, group }) => {
     } else {
         vdConfig = join(vdConfig, `${camelCase(name)}.json`);
     }
-    return { component, route, service, model, vdConfig };
+    return { component, route, service, model, vdConfig, groupPath };
 }

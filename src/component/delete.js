@@ -1,6 +1,7 @@
 import { join } from 'path';
 import { removeSync } from 'fs-extra';
 import resetIndex from './resetIndex';
+import { getPaths } from '../utils';
 
 export default (project, component) => {
     const dev = project.directory.development;
@@ -10,22 +11,15 @@ export default (project, component) => {
     if (group) {
         filename = `${group.replace(/>/g, '-')}-${name}.json`;
     }
+    const paths = getPaths({ dir: project.dir, group, name });
 
-    removeSync(join(project.dir, '.vd', 'components', filename));
-
-    let baseComponentPath = join(project.dir, 'src', 'components');
-
-    if (group) {
-        let paths = group.split('>').map(e => e.trim());
-        paths.forEach(item => baseComponentPath = join(baseComponentPath, item));
-    }
-
-    removeSync(join(baseComponentPath, name));
+    removeSync(paths.vdConfig);
+    removeSync(paths.component);
 
     if (type === 1) {
-        removeSync(join(project.dir, 'src', 'models', `${name}.js`));
-        removeSync(join(project.dir, 'src', 'routes', `${name}.js`));
-        removeSync(join(project.dir, 'src', 'services', `${name}.js`));
+        removeSync(join(paths.model, `${name}.js`));
+        removeSync(join(paths.route, `${name}.js`));
+        removeSync(join(paths.service, `${name}.js`));
     }
     resetIndex({
         ...project

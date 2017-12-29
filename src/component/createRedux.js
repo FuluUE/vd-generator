@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { join } from 'path';
+import { join, relative } from 'path';
 import { existsSync, mkdirsSync, writeFileSync, readFileSync, readJSONSync } from 'fs-extra';
 import { camelCase, getPaths } from '../utils';
 import render from '../utils/mustache';
@@ -76,25 +76,31 @@ export default (config, opts) => {
         apiContent[opts.saga.requestVarName] = opts.saga.url;
         writeFileSync(apiPath, `export default ${JSON.stringify(apiContent, null, 2)};`);
 
+        const relativePath = relative(join(paths.service), join(config.dir, 'src')).replace(/\\/g, '/');
 
         if (!existsSync(paths.route)) {
             mkdirsSync(paths.route);
         }
+        console.log(paths);
         writeFileSync(join(paths.route, `${name}.js`),
             render('route.mustache',
                 {
                     name,
-                    ...opts.saga
+                    ...opts.saga,
+                    relativePath,
+                    groupPath: paths.groupPath
                 })
         );
         if (!existsSync(paths.service)) {
             mkdirsSync(paths.service);
         }
+
         writeFileSync(join(paths.service, `${camelCaseName}.js`),
             render('services.mustache',
                 {
                     camelCaseName,
-                    ...opts.saga
+                    ...opts.saga,
+                    relativePath
                 })
         );
 
@@ -105,7 +111,9 @@ export default (config, opts) => {
             render('model.mustache',
                 {
                     name,
-                    camelCaseName
+                    camelCaseName,
+                    relativePath,
+                    groupPath: paths.groupPath
                 })
         );
     }
