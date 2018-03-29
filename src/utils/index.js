@@ -25,11 +25,10 @@ export const getPaths = ({ dir, name, group }) => {
         paths.forEach(item => service = join(service, item));
         paths.forEach(item => model = join(model, item));
 
-        component = join(component, name);
-
         vdConfig = join(vdConfig, `${group.replace(/>/g, '-')}-${camelCase(name)}.json`);
     } else {
         vdConfig = join(vdConfig, `${camelCase(name)}.json`);
     }
+    component = join(component, name);
     return { component, route, service, model, vdConfig, groupPath };
 }
